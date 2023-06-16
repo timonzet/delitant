@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<p>File uploaded successfully</p>
+<p>File VTD: <a href="{{ url_for('input_file.download', filename=vtd_name) }}">{{vtd_name}}</a></p>
+<p>File BDD: <a href="{{ url_for('input_file.download', filename=bdd_name) }}">{{bdd_name}}</a></p>
+{% endblock %}
