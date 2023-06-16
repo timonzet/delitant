@@ -15,8 +15,9 @@ import os
 from pathlib import Path
 
 # BASE_DIR = "/www/test4.barsinfo.ru/uploads_files/"
-BASE_DIR = Path("upload_files")
+BASE_DIR = Path("uploads_files")
 DOWNLOAD_DIR = Path("download_files")
+# DOWNLOAD_DIR = "/www/test4.barsinfo.ru/download_files/"
 
 
 input_file = Blueprint("input_file", __name__)
@@ -266,9 +267,6 @@ def get_file():
         bdpdst_bdd[5] = p[19]
         bdpdst_bdd[6] = p[5]
 
-        # print(bd_bdd)
-        # print(bdpd_bdd)
-        # print(bdpdst_bdd)
 
         vt_vtd[1] = p[1]
         vt_vtd[2] = p[9]
@@ -326,5 +324,5 @@ def get_file():
 
 
 @input_file.route("/<path:filename>", methods=["GET", "POST"], endpoint="download")
-def get_file(filename):
+def get_file_server(filename):
     return send_file(filename)
