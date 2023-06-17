@@ -1,3 +1,5 @@
+import shutil
+
 from flask import (
     Blueprint,
     render_template,
@@ -6,6 +8,8 @@ from flask import (
     request,
     flash,
     send_file,
+    make_response,
+    send_from_directory,
 )
 import xlrd
 import openpyxl
@@ -13,9 +17,10 @@ import datetime
 from werkzeug.utils import secure_filename
 import os
 from pathlib import Path
+from flask_login import login_required
 
 # BASE_DIR = "/www/test4.barsinfo.ru/uploads_files/"
-BASE_DIR = Path("upload_files")
+UPLOAD_FILE = Path("upload_files")
 DOWNLOAD_DIR = Path("download_files")
 # DOWNLOAD_DIR = "/www/test4.barsinfo.ru/download_files/"
 
@@ -26,9 +31,9 @@ ALLOWED_EXTENSIONS = {"xls", "xlsx"}
 
 
 @input_file.route("/", methods=["POST"])
+# @login_required
 def get_file():
     file = request.files["file"]
-    print(file)
 
     if file.filename == "":
         flash("Нет выбранного файла")
@@ -38,7 +43,8 @@ def get_file():
         # безопасно извлекаем оригинальное имя файла
         filename = secure_filename(file.filename)
         # сохраняем файл
-        file.save(os.path.join(BASE_DIR, filename))
+        file.save(os.path.join(UPLOAD_FILE, filename))
+
         # если все прошло успешно, то перенаправляем
         # на функцию-представление `download_file`
         # для скачивания файла
@@ -279,7 +285,8 @@ def get_file():
         vtoper_vtd[8] = p[5]
         vtoper_vtd[13] = p[21]
         vtoper_vtd[15] = p[19]
-        with open(f"{DOWNLOAD_DIR}/file_bdd.BDD", "w") as bdd:
+
+        with open(file="file_bdd.BDD", mode="w") as bdd:
             bdd.write(
                 str("|".join(map(str, fk_bdd)))
                 + "|"
@@ -298,8 +305,9 @@ def get_file():
                 + "\n"
                 + str("|".join(map(str, bdpdst_bdd)))
             )
+            shutil.move(f"{bdd.name}", f"{DOWNLOAD_DIR}/{bdd.name}")
 
-        with open(f"{DOWNLOAD_DIR}/file_vtd.VTD", "w") as vtd:
+        with open(file="file_vtd.VTD", mode="w") as vtd:
             vtd.write(
                 str("|".join(map(str, fk_vtd)))
                 + "|"
@@ -318,13 +326,25 @@ def get_file():
                 + "\n"
                 + str("|".join(map(str, vtoper_vtd)))
             )
+            shutil.move(f"{vtd.name}", f"{DOWNLOAD_DIR}/{vtd.name}")
 
         return render_template("download.html", vtd_name=vtd.name, bdd_name=bdd.name)
 
 
-@input_file.route("/<path:filename>", methods=["GET", "POST"], endpoint="download")
+@input_file.route("/<path:filename>", methods=["GET"], endpoint="download")
 def get_file_server(filename):
-    return send_file(
-        filename,
-        as_attachment=True,
+    directory_path = DOWNLOAD_DIR
+    print(filename)
+    path = os.path.join(DOWNLOAD_DIR, filename)
+    print(path)
+    # Appending app path to upload folder path within app root folder
+    uploads = os.path.join(DOWNLOAD_DIR)
+    # Returning file from appended path
+    print(uploads)
+    response = make_response(
+        send_from_directory(directory_path, filename, as_attachment=True)
     )
+    response.headers[
+        "Content-Disposition"
+    ] = f"attachment; filename={filename}"  # Задаем заголовок
+    return response
