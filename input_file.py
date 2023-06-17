@@ -15,7 +15,7 @@ import os
 from pathlib import Path
 
 # BASE_DIR = "/www/test4.barsinfo.ru/uploads_files/"
-BASE_DIR = Path("uploads_files")
+BASE_DIR = Path("upload_files")
 DOWNLOAD_DIR = Path("download_files")
 # DOWNLOAD_DIR = "/www/test4.barsinfo.ru/download_files/"
 
@@ -266,7 +266,6 @@ def get_file():
         bdpdst_bdd[1] = p[24]
         bdpdst_bdd[5] = p[19]
         bdpdst_bdd[6] = p[5]
-
 
         vt_vtd[1] = p[1]
         vt_vtd[2] = p[9]
