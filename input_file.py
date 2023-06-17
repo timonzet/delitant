@@ -324,4 +324,7 @@ def get_file():
 
 @input_file.route("/<path:filename>", methods=["GET", "POST"], endpoint="download")
 def get_file_server(filename):
-    return send_file(filename)
+    return send_file(
+        filename,
+        as_attachment=True,
+    )
