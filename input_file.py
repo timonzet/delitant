@@ -4,10 +4,8 @@ from flask import (
     Blueprint,
     render_template,
     redirect,
-    url_for,
     request,
     flash,
-    send_file,
     make_response,
     send_from_directory,
 )
@@ -31,7 +29,7 @@ ALLOWED_EXTENSIONS = {"xls", "xlsx"}
 
 
 @input_file.route("/", methods=["POST"])
-# @login_required
+@login_required
 def get_file():
     file = request.files["file"]
 
@@ -45,9 +43,6 @@ def get_file():
         # сохраняем файл
         file.save(os.path.join(UPLOAD_FILE, filename))
 
-        # если все прошло успешно, то перенаправляем
-        # на функцию-представление `download_file`
-        # для скачивания файла
         p = []
 
         if filename.endswith(".xls"):

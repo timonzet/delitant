@@ -15,7 +15,6 @@ from flask_login import login_user, logout_user, login_required
 auth = Blueprint("auth", __name__)
 
 
-
 @auth.route("/login")
 def login():
     return render_template("login.html")
@@ -39,7 +38,7 @@ def signup_post():
     if (
         user
     ):  # if a user is found, we want to redirect back to signup page so user can try again
-        flash("Email address already exists")
+        flash("Адрес электронной почты уже используется")
         return redirect(url_for("auth.signup"))
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.

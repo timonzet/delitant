@@ -1,36 +1,59 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <div class="column is-4 is-offset-4">
-        <h3 class="title">Login</h3>
-        <div class="box">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <div class="notification is-danger">
-                        {{ messages[0] }}
-                    </div>
-                {% endif %}
-            {% endwith %}
-            <form method="POST" action="/login">
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
-                    </div>
-                </div>
+    <section class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                {#                <div class="col-md-9 col-lg-6 col-xl-5">#}
+                {#                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"#}
+                {#                         class="img-fluid" alt="Sample image">#}
+                {#                </div>#}
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="notification is-danger">
+                                {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    <form method="POST" action="/login">
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <input type="email" name="email" id="form3Example3" class="form-control form-control-lg"
+                                   placeholder="Введите электронной почты"/>
+                            <label class="form-label" for="form3Example3">Адрес электронной почты</label>
+                        </div>
 
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="password" name="password" placeholder="Your Password">
-                    </div>
+                        <!-- Password input -->
+                        <div class="form-outline mb-3">
+                            <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
+                                   placeholder="Введите пароль"/>
+                            <label class="form-label" for="form3Example4">Пароль</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Checkbox -->
+                            <div class="form-check mb-0">
+                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3"/>
+                                <label class="form-check-label" for="form2Example3">
+                                    Запомнить
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" name="login" value="true"   class="btn btn-primary btn-lg"
+                                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Login
+                            </button>
+                            <p class="small fw-bold mt-2 pt-1 mb-0">Ещё нет аккаунта? <a
+                                    href="{{ url_for('auth.signup') }}"
+                                    class="link-danger">Зарегистрироваться</a>
+                            </p>
+                        </div>
+
+                    </form>
                 </div>
-                <div class="field">
-                    <label class="checkbox">
-                        <input type="checkbox">
-                        Remember me
-                    </label>
-                </div>
-                <button class="button is-block is-info is-large is-fullwidth">Login</button>
-            </form>
+            </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
