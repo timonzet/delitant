@@ -4,11 +4,13 @@ from pathlib import Path
 BADE_DIR = Path(__file__).resolve().parent
 USERNAME = "u1127123_delitan"
 PASSWORD = "LF76B8IvUzqbH61v"
-DB_FILE = f"mysql+pymysql://{USERNAME}:{PASSWORD}@localhost/u1127123_delitant_flask"
+DEFAULT_DB_URL = (
+    f"mysql+pymysql://{USERNAME}:{PASSWORD}@localhost/u1127123_delitant_flask"
+)
 
 SQLALCHEMY_DATABASE_URI = getenv(
     "SQLALCHEMY_DATABASE_URI",
-    DB_FILE,
+    DEFAULT_DB_URL,
 )
 
 

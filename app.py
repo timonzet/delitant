@@ -6,12 +6,13 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from models.user import User
 from input_file import input_file
+from config import SQLALCHEMY_DATABASE_URI
 
 
 application = Flask(__name__)
 
 application.config["SECRET_KEY"] = "cfd8a3921f67cbe8b3f7e2d31c9d5f4a"
-application.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
+application.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 
 db.init_app(application)
 
